@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, Enum, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
-
-Base = declarative_base()
+from entities.base import Base
 
 class Producto(Base):
     __tablename__ = 'Productos'

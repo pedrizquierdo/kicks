@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text
-from sqlalchemy.orm import declarative_base, relationship
-
-Base = declarative_base()
+from sqlalchemy.orm import relationship
+from entities.base import Base
 
 class Marca(Base):
     __tablename__ = 'Marcas'
@@ -13,4 +12,3 @@ class Marca(Base):
     sitio_web = Column(String(100))
     
     productos = relationship("Producto", back_populates="marca")
-    
