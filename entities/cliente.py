@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, Enum
-from sqlalchemy.orm import declarative_base
 from entities.base import Base
 
 class Cliente(Base):

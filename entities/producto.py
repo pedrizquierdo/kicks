@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, Enum, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
 from entities.base import Base
 
 class Producto(Base):
