@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, Enum
 from entities.base import Base
+from sqlalchemy.orm import relationship
 
 class Cliente(Base):
     __tablename__ = 'Clientes'
@@ -13,3 +14,4 @@ class Cliente(Base):
     fecha_nacimiento = Column(Date)
     fecha_registro = Column(DateTime, server_default='CURRENT_TIMESTAMP')
     tipo_cliente = Column(Enum('Regular', 'Premium', name='tipo_cliente'), default='Regular')
+    ventas = relationship("Venta", back_populates="cliente")
