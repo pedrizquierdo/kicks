@@ -36,12 +36,7 @@ class GerenteMenu(tk.Toplevel):
             command=self.abrir_crud_productos
         ).pack(fill=tk.X, pady=5)
         
-        ttk.Button(
-            main_frame, 
-            text="Reportes",
-            command=self.mostrar_reportes
-        ).pack(fill=tk.X, pady=5)
-        
+
         ttk.Button(
             main_frame, 
             text="Cerrar Sesión",

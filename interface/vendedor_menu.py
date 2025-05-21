@@ -32,12 +32,6 @@ class VendedorMenu(tk.Toplevel):
         
         ttk.Button(
             main_frame, 
-            text="Consultar Productos",
-            command=self.consultar_productos
-        ).pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            main_frame, 
             text="Clientes",
             command=self.gestionar_clientes
         ).pack(fill=tk.X, pady=5)
