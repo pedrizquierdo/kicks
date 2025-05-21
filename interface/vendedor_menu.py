@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from interface.ventas_view import VentasView
+from interface.crud_clientes import ClientesCRUD
 
 class VendedorMenu(tk.Toplevel):
     def __init__(self, parent, empleado):
@@ -54,7 +55,7 @@ class VendedorMenu(tk.Toplevel):
         messagebox.showinfo("Productos", "Funcionalidad de consulta de productos en desarrollo")
         
     def gestionar_clientes(self):
-        messagebox.showinfo("Clientes", "Funcionalidad de gestión de clientes en desarrollo")
+        ClientesCRUD(self)
         
     def cerrar_sesion(self):
         self.destroy()
