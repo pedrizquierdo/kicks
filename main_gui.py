@@ -1,4 +1,4 @@
-from interface.gui_menu import run_gui
+from interface.login import run_login
 
 if __name__ == "__main__":
-    run_gui()
+    run_login()

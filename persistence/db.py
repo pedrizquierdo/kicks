@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import entities
 # Configuración de la conexión (ajusta según tu entorno)
-CONNECTION = 'mysql+pymysql://root:Admin@localhost/tienda_deportiva'
+CONNECTION = 'mysql+pymysql://root:administrador@localhost/tienda_deportiva'
 
 # Crear el motor de la base de datos
 engine = create_engine(CONNECTION, echo=True)

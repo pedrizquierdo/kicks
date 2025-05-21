@@ -9,7 +9,7 @@ class ProductoService:
         return self.db.query(Producto).all()
     
     def get_producto_by_id(self, producto_id: int):
-        return self.db.query(Producto).filter(Producto.producto_id == producto_id).first()
+        return self.db.query(Producto).filter(Producto.producto_id == producto_id).first()  # Changed to id
     
     def create_producto(self, producto_data: dict):
         producto = Producto(**producto_data)
@@ -19,16 +19,16 @@ class ProductoService:
         return producto
     
     def update_producto(self, producto_id: int, producto_data: dict):
-        producto = self.db.query(Producto).filter(Producto.producto_id == producto_id).first()
+        producto = self.get_producto_by_id(producto_id)
         if producto:
             for key, value in producto_data.items():
                 setattr(producto, key, value)
             self.db.commit()
-            return producto
-        return None
+            self.db.refresh(producto)
+        return producto
     
     def delete_producto(self, producto_id: int):
-        producto = self.db.query(Producto).filter(Producto.producto_id == producto_id).first()
+        producto = self.get_producto_by_id(producto_id)
         if producto:
             self.db.delete(producto)
             self.db.commit()
