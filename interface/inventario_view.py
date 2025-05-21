@@ -74,10 +74,12 @@ class InventarioView(tk.Toplevel):
                 inventario_service = InventarioService(db)
                 producto_service = ProductoService(db)
                 
-                items = inventario_service.get_inventario()
+                items = inventario_service.obtener_todo_el_inventario()
+
                 
                 for item in items:
-                    producto = producto_service.get_producto(item.producto_id)
+                    producto = producto_service.get_producto_by_id(item.producto_id)
+
                     self.tree.insert("", tk.END, values=(
                         item.inventario_id,
                         producto.nombre if producto else "N/A",
@@ -101,15 +103,100 @@ class InventarioView(tk.Toplevel):
         if not selected:
             messagebox.showwarning("Advertencia", "Seleccione un item del inventario")
             return
-            
-        # Implementar lógica para agregar stock
-        messagebox.showinfo("Agregar", "Funcionalidad para agregar stock en desarrollo")
+
+        item_values = self.tree.item(selected[0])["values"]
+        inventario_id = item_values[0]
+        producto_nombre = item_values[1]
+
+        # Crear ventana emergente
+        ventana = tk.Toplevel(self)
+        ventana.title("Agregar Stock")
+        ventana.geometry("300x250")
+        ventana.transient(self)
+        ventana.grab_set()
+
+        # Título producto
+        ttk.Label(ventana, text=f"Producto: {producto_nombre}").pack(pady=5)
+
+        # Campo proveedor
+        ttk.Label(ventana, text="ID del proveedor:").pack()
+        proveedor_var = tk.IntVar()
+        ttk.Entry(ventana, textvariable=proveedor_var).pack()
+
+        # Campo cantidad
+        ttk.Label(ventana, text="Cantidad a agregar:").pack()
+        cantidad_var = tk.IntVar()
+        ttk.Entry(ventana, textvariable=cantidad_var).pack()
+
+        def confirmar():
+            proveedor_id = proveedor_var.get()
+            cantidad = cantidad_var.get()
+
+            if proveedor_id <= 0 or cantidad <= 0:
+                messagebox.showerror("Error", "Todos los campos deben ser mayores a 0")
+                return
+
+            try:
+                with next(get_db()) as db:
+                    inventario_service = InventarioService(db)
+
+                    # Actualizar el inventario
+                    inventario_service.agregar_stock(inventario_id, cantidad)
+
+                    # Aquí podrías guardar una entrada en una tabla de historial si la tienes
+
+                messagebox.showinfo("Éxito", "Stock agregado correctamente")
+                self.actualizar_lista()
+                ventana.destroy()
+            except Exception as e:
+                messagebox.showerror("Error", f"No se pudo agregar stock: {str(e)}")
+
+        ttk.Button(ventana, text="Confirmar", command=confirmar).pack(pady=10)
+
+
         
     def ajustar_stock(self):
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("Advertencia", "Seleccione un item del inventario")
             return
-            
-        # Implementar lógica para ajustar stock
-        messagebox.showinfo("Ajustar", "Funcionalidad para ajustar stock en desarrollo")
+
+        item_values = self.tree.item(selected[0])["values"]
+        inventario_id = item_values[0]
+        producto_nombre = item_values[1]
+        stock_actual = item_values[4]
+
+        ventana = tk.Toplevel(self)
+        ventana.title("Ajustar Stock")
+        ventana.geometry("300x200")
+        ventana.transient(self)
+        ventana.grab_set()
+
+        ttk.Label(ventana, text=f"Producto: {producto_nombre}").pack(pady=5)
+        ttk.Label(ventana, text=f"Stock actual: {stock_actual}").pack(pady=5)
+
+        nueva_cantidad_var = tk.IntVar()
+        ttk.Label(ventana, text="Nuevo stock real:").pack()
+        ttk.Entry(ventana, textvariable=nueva_cantidad_var).pack()
+
+        def confirmar_ajuste():
+            nueva_cantidad = nueva_cantidad_var.get()
+            if nueva_cantidad < 0:
+                messagebox.showerror("Error", "El stock no puede ser negativo.")
+                return
+
+            try:
+                with next(get_db()) as db:
+                    inventario_service = InventarioService(db)
+                    inventario_service.actualizar_elemento_inventario(
+                        inventario_id=inventario_id,
+                        cantidad=nueva_cantidad
+                    )
+
+                messagebox.showinfo("Éxito", "Stock ajustado correctamente.")
+                self.actualizar_lista()
+                ventana.destroy()
+            except Exception as e:
+                messagebox.showerror("Error", f"No se pudo ajustar el stock: {str(e)}")
+
+        ttk.Button(ventana, text="Confirmar", command=confirmar_ajuste).pack(pady=10)

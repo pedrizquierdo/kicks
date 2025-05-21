@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from interface.inventario_view import InventarioView
+from interface.RegistrarEntradaView import RegistrarEntradaView
+
+
 
 class AlmacenistaMenu(tk.Toplevel):
     def __init__(self, parent, empleado):
@@ -37,12 +40,6 @@ class AlmacenistaMenu(tk.Toplevel):
         
         ttk.Button(
             main_frame, 
-            text="Registrar Salida",
-            command=self.registrar_salida
-        ).pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            main_frame, 
             text="Cerrar Sesión",
             command=self.cerrar_sesion
         ).pack(fill=tk.X, pady=20)
@@ -51,10 +48,8 @@ class AlmacenistaMenu(tk.Toplevel):
         InventarioView(self)
         
     def registrar_entrada(self):
-        messagebox.showinfo("Entrada", "Funcionalidad de registro de entrada en desarrollo")
-        
-    def registrar_salida(self):
-        messagebox.showinfo("Salida", "Funcionalidad de registro de salida en desarrollo")
+        RegistrarEntradaView(self)
+
         
     def cerrar_sesion(self):
         self.destroy()

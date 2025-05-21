@@ -1,0 +1,6 @@
+========== TICKET DE ENTRADA ==========
+Fecha: 2025-05-21 03:41:52
+Producto: Sneakers Adidas Superstar
+Cantidad: 2
+Proveedor: Distribuidora Baja Sport
+========================================
